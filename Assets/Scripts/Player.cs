@@ -8,6 +8,13 @@ public class Player : MonoBehaviour
     [SerializeField] private int rayLength = 10;
     [SerializeField] private LayerMask layerMaskInteract;
 
+    public Camera playerCam;
+
+    void Start()
+    {
+        playerCam = GetComponentInChildren<Camera>();
+    }
+
     void Update()
     {
         RaycastHit hit;

@@ -1,15 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class SinkInteractable : Interactable
 {
     public ParticleSystem system;
     public bool isWaterRunning;
+    Player player;
+    public CinemachineBrain cinemachineBrain;
+    public GameObject playerModel;
 
     void Start()
     {
         isWaterRunning = system.isPlaying;
+        player = FindObjectOfType<Player>();
     }
 
     public override void ShowOptions() {
@@ -19,9 +24,21 @@ public class SinkInteractable : Interactable
         {
             interactions.Add("With Water");
             interactions.Add("Without Water");
+
+            cinemachineBrain.gameObject.SetActive(true);
+            playerModel.SetActive(true);
+            player.GetComponent<FirstPersonAIO>().enabled = false;
+            player.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
         }
         else
+        {
             interactions.Add("Brush");
+        
+            cinemachineBrain.gameObject.SetActive(false);
+            playerModel.SetActive(false);
+            player.GetComponent<FirstPersonAIO>().enabled = true;
+            player.transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
+        }
 
         GameManager.manager.ListInteraction(interactions);
     }
