@@ -17,6 +17,15 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI textPrefab;
     public RectTransform interactableTxtHolder;
 
+    public bool gameOver = false;
+
+    public bool playing = true;
+    public FirstPersonAIO player;
+
+    public HintHandler hintHandler;
+
+    public float timer = 0;
+
     public void ClearInteraction()
     {
         foreach (GameObject txt in interactionTxt)
@@ -42,6 +51,7 @@ public class GameManager : MonoBehaviour
         if (manager == null)
         {
             manager = this;
+            timer = 0;
             DontDestroyOnLoad(this);
         }
         else
@@ -52,11 +62,6 @@ public class GameManager : MonoBehaviour
         if (MenuManagement.manager)
             hintHandler.gameObject.SetActive(MenuManagement.manager.tutorialToggle.isOn);
     }
-
-    public bool playing = true;
-    public FirstPersonAIO player;
-
-    public HintHandler hintHandler;
 
     public void ResumeGame()
     {
@@ -74,7 +79,12 @@ public class GameManager : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (!gameOver && playing)
+        {
+            timer += Time.deltaTime;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape) && !gameOver)
         {
             playing = false;
             player.enabled = false;

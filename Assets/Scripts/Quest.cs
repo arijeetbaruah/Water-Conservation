@@ -9,5 +9,7 @@ public class Quest : ScriptableObject
     public string questName;
     public int questTrackNumber = 1;
 
+    public int questTrackNumberComplete = 0;
+
     public Quest[] nextQuests;
 }

@@ -15,7 +15,8 @@ public class QuestStatus
         isComplete = true;
         foreach(Quest q in quest.nextQuests)
         {
-            LevelManager.manager.AddQuest(q.questName, q);
+            q.questTrackNumberComplete = 0;
+            LevelManager.manager.AddQuest(q.questID, q);
         }
 
         AnalyticsEvent.Custom(quest.name, new Dictionary<string, object> { { "time_elapsed", Time.timeSinceLevelLoad } });
@@ -34,23 +35,53 @@ public class LevelManager : MonoBehaviour
 
     public float questInfoWaitTime = 5;
 
+    public Slider waterLeftSlider;
+
+    public float waterLeft;
+    float maxWaterLeft;
+
+    public float MaxWaterLeft { get => maxWaterLeft; }
+
     public void Awake()
     {
         if (manager == null)
         {
             manager = this;
+            maxWaterLeft = waterLeft;
             DontDestroyOnLoad(this);
         }
         else
         {
             Destroy(this);
         }
+
+        if (waterLeftSlider)
+        {
+            waterLeftSlider.maxValue = waterLeft;
+            waterLeftSlider.value = waterLeft;
+
+            waterLeftSlider.minValue = 0;
+        }
     }
 
     private void Start()
     {
-        if (!GameManager.manager.hintHandler.gameObject.activeSelf)
-            AddQuest(startQuest.questID, startQuest);
+        if (!GameManager.manager.gameOver)
+            if (!GameManager.manager.hintHandler.gameObject.activeSelf)
+                AddQuest(startQuest.questID, startQuest);
+    }
+
+    public bool UseWater(float water)
+    {
+        if (waterLeft >= water)
+        {
+            waterLeft -= water;
+            waterLeftSlider.value = waterLeft;
+
+            return true;
+        }
+
+        return false;
     }
 
     public void UpdateQuest()
@@ -71,7 +102,10 @@ public class LevelManager : MonoBehaviour
             if (!q.isComplete)
             {
                 TextMeshProUGUI txt = Instantiate<TextMeshProUGUI>(GameManager.manager.textPrefab, questHolder.transform);
-                txt.SetText(q.quest.questName);
+                if (q.quest.questTrackNumber == 1)
+                    txt.SetText(q.quest.questName);
+                else
+                    txt.SetText(q.quest.questName + "("+ 0 + "/" + q.quest.questTrackNumber +")");
             }
         }
     }

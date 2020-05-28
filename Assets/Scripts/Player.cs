@@ -8,6 +8,9 @@ public class Player : MonoBehaviour
     [SerializeField] private int rayLength = 10;
     [SerializeField] private LayerMask layerMaskInteract;
 
+    public int dishInHand;
+    public int maxDishInHand = 2;
+
     public Camera playerCam;
 
     void Start()

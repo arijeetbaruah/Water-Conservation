@@ -46,9 +46,12 @@ public class SinkInteractable : Interactable
     public override void Interact(KeyCode key)
     {
         isWaterRunning = !isWaterRunning;
-        if (isWaterRunning)
+        if (isWaterRunning && LevelManager.manager.waterLeft >= 5f)
         {
             system.Play();
+        } else if (LevelManager.manager.waterLeft < 5f)
+        {
+            Debug.Log("Out of water");
         }
         else
         {
@@ -57,14 +60,16 @@ public class SinkInteractable : Interactable
             qs.Complete();
             LevelManager.manager.quests["BYT"] = qs;
 
-            //switch (key)
-            //{
-            //    case KeyCode.F:
-            //        break;
-            //    case KeyCode.E:
-            //        qs.isComplete = true; 
-            //        break;
-            //}
+            switch (key)
+            {
+                case KeyCode.F:
+                    LevelManager.manager.UseWater(10f);
+                    break;
+                case KeyCode.E:
+                    LevelManager.manager.UseWater(5f);
+                    qs.isComplete = true;
+                    break;
+            }
             system.Stop();
         }
     }
