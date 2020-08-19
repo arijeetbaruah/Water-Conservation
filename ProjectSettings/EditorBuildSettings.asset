@@ -14,4 +14,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameOver.unity
     guid: 834d293c76e37a34b94d1a747d0f323d
+  - enabled: 1
+    path: Assets/Scenes/RythmAction_test.unity
+    guid: 29ad42fb3fec6d54da4c19bd2c050d16
+  - enabled: 1
+    path: Assets/Scenes/MemoryCardGame.unity
+    guid: 20e29199559aaa3499b064389439c49a
+  - enabled: 1
+    path: Assets/Scenes/TicTacToe.unity
+    guid: 49eafce3d1d42eb469e990826da1a25f
+  - enabled: 1
+    path: Assets/Scenes/SpaceExploration.unity
+    guid: df461d5ab4c3f6c45ad4a9a8e082f091
   m_configObjects: {}

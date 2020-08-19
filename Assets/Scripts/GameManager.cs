@@ -21,10 +21,13 @@ public class GameManager : MonoBehaviour
 
     public bool playing = true;
     public FirstPersonAIO player;
+    public RectTransform questHolder;
+    public Slider waterLeftSlider;
 
     public HintHandler hintHandler;
 
     public float timer = 0;
+    public float bonus = 0;
 
     public void ClearInteraction()
     {
@@ -52,7 +55,6 @@ public class GameManager : MonoBehaviour
         {
             manager = this;
             timer = 0;
-            DontDestroyOnLoad(this);
         }
         else
         {
@@ -61,13 +63,20 @@ public class GameManager : MonoBehaviour
 
         if (MenuManagement.manager)
             hintHandler.gameObject.SetActive(MenuManagement.manager.tutorialToggle.isOn);
+
+        if(InterGameData.data)
+            if (InterGameData.data.playerPos != null)
+            {
+                player.transform.position = InterGameData.data.playerPos;
+                player.transform.rotation = InterGameData.data.playerRot;
+            }
     }
 
     public void ResumeGame()
     {
         playing = true;
         player.enabled = true;
-        GameManager.manager.pauseMenu.gameObject.SetActive(false);
+        pauseMenu.gameObject.SetActive(false);
 
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -75,6 +84,12 @@ public class GameManager : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    public void StartMiniGame()
+    {
+        InterGameData.data.playerPos = player.transform.position;
+        InterGameData.data.playerRot = player.transform.rotation;
     }
 
     public void Update()
@@ -88,9 +103,10 @@ public class GameManager : MonoBehaviour
         {
             playing = false;
             player.enabled = false;
-            GameManager.manager.pauseMenu.gameObject.SetActive(true);
+            pauseMenu.gameObject.SetActive(true);
 
             Cursor.lockState = CursorLockMode.None;
-        }
+
+        }   
     }
 }

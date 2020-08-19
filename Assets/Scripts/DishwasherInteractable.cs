@@ -46,6 +46,7 @@ public class DishwasherInteractable : Interactable
                 qs = (QuestStatus)LevelManager.manager.quests["WD"];
                 qs.Complete();
                 LevelManager.manager.quests["WD"] = qs;
+                StartMiniGameLevel();
             }
             else
             {

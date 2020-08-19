@@ -68,6 +68,7 @@ public class SinkInteractable : Interactable
                 case KeyCode.E:
                     LevelManager.manager.UseWater(5f);
                     qs.isComplete = true;
+                    StartMiniGameLevel();
                     break;
             }
             system.Stop();

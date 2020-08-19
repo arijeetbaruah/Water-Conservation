@@ -28,14 +28,12 @@ public class LevelManager : MonoBehaviour
 {
     public static LevelManager manager;
 
-    public RectTransform questHolder;
 
     public Hashtable quests = new Hashtable();
     public Quest startQuest;
 
     public float questInfoWaitTime = 5;
 
-    public Slider waterLeftSlider;
 
     public float waterLeft;
     float maxWaterLeft;
@@ -54,18 +52,18 @@ public class LevelManager : MonoBehaviour
         {
             Destroy(this);
         }
-
-        if (waterLeftSlider)
-        {
-            waterLeftSlider.maxValue = waterLeft;
-            waterLeftSlider.value = waterLeft;
-
-            waterLeftSlider.minValue = 0;
-        }
     }
 
     private void Start()
     {
+        if (GameManager.manager.waterLeftSlider)
+        {
+            GameManager.manager.waterLeftSlider.maxValue = waterLeft;
+            GameManager.manager.waterLeftSlider.value = waterLeft;
+
+            GameManager.manager.waterLeftSlider.minValue = 0;
+        }
+
         if (!GameManager.manager.gameOver)
             if (!GameManager.manager.hintHandler.gameObject.activeSelf)
                 AddQuest(startQuest.questID, startQuest);
@@ -76,7 +74,7 @@ public class LevelManager : MonoBehaviour
         if (waterLeft >= water)
         {
             waterLeft -= water;
-            waterLeftSlider.value = waterLeft;
+            GameManager.manager.waterLeftSlider.value = waterLeft;
 
             return true;
         }
@@ -84,12 +82,17 @@ public class LevelManager : MonoBehaviour
         return false;
     }
 
+    public void FixedUpdate()
+    {
+        UpdateQuest();
+    }
+
     public void UpdateQuest()
     {
 
-        for(int i = 0; i < questHolder.childCount; i++)
+        for(int i = 0; i < GameManager.manager.questHolder.childCount; i++)
         {
-            Transform qh = questHolder.GetChild(i);
+            Transform qh = GameManager.manager.questHolder.GetChild(i);
             Destroy(qh.gameObject);
         }
 
@@ -101,7 +104,7 @@ public class LevelManager : MonoBehaviour
             QuestStatus q = (QuestStatus)quests[k];
             if (!q.isComplete)
             {
-                TextMeshProUGUI txt = Instantiate<TextMeshProUGUI>(GameManager.manager.textPrefab, questHolder.transform);
+                TextMeshProUGUI txt = Instantiate<TextMeshProUGUI>(GameManager.manager.textPrefab, GameManager.manager.questHolder.transform);
                 if (q.quest.questTrackNumber == 1)
                     txt.SetText(q.quest.questName);
                 else

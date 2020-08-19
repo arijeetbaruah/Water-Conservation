@@ -15,5 +15,6 @@ MonoBehaviour:
   questID: BYT
   questName: Brush Your Teeth
   questTrackNumber: 1
+  questTrackNumberComplete: 0
   nextQuests:
-  - {fileID: 11400000, guid: c09c060185d474b4d920d419ca4c6e10, type: 2}
+  - {fileID: 11400000, guid: 0a5feefef1c00b741a9c4bbb7f3833b1, type: 2}
