@@ -49,7 +49,7 @@ public class NoteObject : MonoBehaviour
             rabc.arrowInRange = false;
         } else if (collision.tag == "NoteDestroyer")
         {
-            Debug.Log("hi");
+            Destroy(this.gameObject);
         }
     }
 }

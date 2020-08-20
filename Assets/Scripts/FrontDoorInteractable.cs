@@ -8,7 +8,8 @@ public class FrontDoorInteractable : Interactable
     {
         List<string> interactions = new List<string>();
 
-        interactions.Add("Start Interaction");
+        interactions.Add("Goto Job");
+        interactions.Add("Wash Car");
 
         GameManager.manager.ListInteraction(interactions);
     }
@@ -21,6 +22,14 @@ public class FrontDoorInteractable : Interactable
             qs = (QuestStatus)LevelManager.manager.quests["JB"];
             qs.Complete();
             LevelManager.manager.quests["JB"] = qs;
+            StartMiniGameLevel();
+        }
+        else if (key == KeyCode.E)
+        {
+            QuestStatus qs;
+            qs = (QuestStatus)LevelManager.manager.quests["WC"];
+            qs.Complete();
+            LevelManager.manager.quests["WC"] = qs;
             StartMiniGameLevel();
         }
     }
